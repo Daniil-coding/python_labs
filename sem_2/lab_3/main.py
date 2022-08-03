@@ -6,7 +6,6 @@ import sys
 import os
 
 string = ''
-btn_color = ['red', 'green']
 
 def set(wid, win, relx, rely, relw, relh):
     width = win.width()
@@ -43,7 +42,7 @@ def select_str():
     d = QDialog()
     d.setGeometry(100, 200, 500, 50)
     d.setWindowTitle('Click OK to finish the input.')
-    font = QFont('Italic', 40)
+    font = QFont('Italic', 35)
 
     in_field = QLineEdit(d)
     in_field.setFont(font)
@@ -69,27 +68,23 @@ def select_image():
         show_error("Image wasn't selected or this file is not an image.")
         return None
     else:
+        showimg_btn.clicked.disconnect()
+        showimg_btn.clicked.connect(lambda event: show_image('initial.png'))
         return fs.get_current_path()
 
 def show_image(path):
-    '''dialog = QDialog()
-    pixmap = QPixmap(path)
-    label = QLabel(dialog)
-    dialog.resizeEvent = lambda event: set(label, dialog, 0, 0, 1, 1)
-    dialog.setGeometry(0, 0, 300, 300)
-    label.setPixmap(pixmap)
-    label.resize(pixmap.width(), pixmap.height())
-    dialog.exec()'''
     try:
         image = Image.open(path)
     except:
         return
     image.show()
+    image.close()
 
 def show_string(s):
     dialog = QDialog()
     dialog.setGeometry(500, 300, 500, 50)
     field = QLabel(dialog)
+    field.setFont(font)
     field.setText(s)
     dialog.resizeEvent = lambda event: set(field, dialog, 0, 0, 1, 1)
     dialog.exec()
@@ -156,6 +151,7 @@ def decode(path):
                 val += w
             w *= 2
         result += chr(val)
+    image.close()
     return result
 
 def exists_image(path):

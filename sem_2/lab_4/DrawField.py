@@ -20,7 +20,7 @@ class DrawField(QWidget):
         self.circles = []
         self.dots = []
         self.timer = QTimer()
-        self.timer.setInterval(10)
+        self.timer.setInterval(2)
         self.timer.timeout.connect(self.timeStep)
         self.timer.start()
         self.setAttribute(QtCore.Qt.WA_StyledBackground, True)
@@ -177,7 +177,7 @@ class DrawField(QWidget):
         if self.linked_dot is not None:
             self.linked_dot = mouse
             return
-        obj = self.nearest_shape(mouse, highlight=True, max_dist=5)
+        obj = self.nearest_shape(mouse, highlight=True, max_dist=self.width() / 20)
         if obj is None:
             return
         i = obj[1]
